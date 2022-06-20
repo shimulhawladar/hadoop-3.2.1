@@ -57,9 +57,10 @@ Edit `mapred-site.xml` and replace the `configuration` element with the followin
       	<value>yarn</value>
   </property>
 </configuration>
+```
 
 Edit `yarn-site.xml` and replace the `configuration` element with the following
-
+```
 <configuration>
 	<property>
 	    	<name>mapreduceyarn.nodemanager.aux-services</name>
@@ -68,4 +69,4 @@ Edit `yarn-site.xml` and replace the `configuration` element with the following
 <!-- Site specific YARN configuration properties -->
 
 </configuration>
-
+```
