@@ -1,10 +1,4 @@
-<p align="left" >
-  <a href="https://hadoop.apache.org/release/3.2.1.html" target="_blank">
- Hadoop-3.2.1
-  </a>
-</p>
-
-Hadoop-3.2.1 single node installation on linux Step by Step guide
+# <a href="https://github.com/shimulhawladar/hadoop-3.2.1/blob/main/Hadoop-3.2.1_Install" target="_blank"> Hadoop-3.2.1 </a> single node installation on linux Step by Step guide
 
 ##
  Replace User to Current OS User 
