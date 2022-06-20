@@ -1,0 +1,104 @@
+
+#== Hadoop 3.2.1 installation on Ubuntu ==#
+
+sudo apt update
+
+sudo apt install openjdk-8-jdk
+
+sudo apt install openssh-server openssh-client
+ssh-keygen -t rsa
+ssh-copy-id localhost
+
+wget https://archive.apache.org/dist/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
+tar -xvzf hadoop-3.2.1.tar.gz
+
+sudo mv hadoop-3.2.1 /usr/local/hadoopsudo mv hadoop-3.2.1 /usr/local/hadoop
+chmod 777 /usr/local/hadoop
+sudo chown User:User /usr/local/hadoop
+cd /usr/local/hadoop/etc/hadoop
+
+sudo nano core-site.xml
+#=> Set property under <configuration>
+ <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+</property>
+
+<property>
+        <name>hadoop.tmp.dir</name>
+        <value>/usr/local/hadoop/tmp</value>
+</property>
+
+
+sudo nano hdfs-site.xml
+#=> Set property under <configuration>
+<property>
+        <name>dfs.replication</name>
+        <value>1</value>
+</property>
+
+<property>
+        <name>dfs.name.dir</name>
+        <value>file:///usr/local/hadoop/hadoop_data/namenode</value>
+</property>
+
+<property>
+        <name>dfs.data.dir</name>
+        <value>file:///usr/local/hadoop/hadoop_data/datanode</value>
+</property>
+
+
+sudo nano mapred-site.xml
+#=> Set property under <configuration>
+<property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+</property>
+
+sudo nano yarn-site.xml
+#=> Set property under <configuration>
+<property>
+        <name>mapreduceyarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+</property>
+
+sudo nano ~/.bashrc
+
+# Hadoop config == Start ==> 
+export HADOOP_HOME=/usr/local/hadoop
+export HADOOP_INSTALL=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=${HADOOP_HOME}
+export HADOOP_COMMON_HOME=${HADOOP_HOME}
+export HADOOP_HDFS_HOME=${HADOOP_HOME}
+export YARN_HOME=${HADOOP_HOME}
+export HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+# Native path
+export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_PREFIX}/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_PREFIX/lib/native"
+
+
+# Java path
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export PATH=$PATH:$JAVA_HOME/bin
+
+# <==End
+
+source ~/.bashrc
+sudo nano /usr/local/hadoop/etc/hadoop/masters
+localhost
+sudo nano /usr/local/hadoop/etc/hadoop/slaves
+localhost
+sudo mkdir -p /usr/local/hadoop/hadoop_data/namenode
+sudo mkdir -p /usr/local/hadoop/hadoop_data/datanode
+sudo mkdir -p /usr/local/hadoop/tmp
+sudo chown User:User /usr/local/hadoop/*
+cd /usr/local/hadoop/hadoop_data
+sudo chmod 777 *
+sudo chown User:User *
+sudo nano /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+cd /usr/local/hadoop
+bin/hadoop namenode -format
+sbin/start-all.sh
+
+
